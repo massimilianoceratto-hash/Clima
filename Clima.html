@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>App del Clima Libre</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #87CEEB; /* Color cielo */
+text-align: center;
+padding: 50px;
+color: #333;
+}
+.contenedor {
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+display: inline-block;
+}
+input, button {
+padding: 10px;
+font-size: 16px;
+margin: 5px;
+}
+</style>
+</head>
+<body>
+<div class="contenedor">
+<h1> El Clima en Vivo</h1>
+<p>Escribe una ciudad para saber cómo está el clima ahora mismo gracias a
+la nube.</p>
+<input type="text" id="ciudad" placeholder="Ej: Merlo, San Luis">
+<button onclick="buscarClima()">Buscar</button>
+<h2 id="resultado"></h2>
+<script>
+function buscarClima() {
+// 1. Obtenemos el nombre de la ciudad que escribió el usuario
+const ciudad = document.getElementById('ciudad').value;
+// 2. ¡PEGA TU API KEY AQUÍ ABAJO!
+// const apiKey = 'PEGA_AQUI_TU_CLAVE_DE_OPENWEATHERMAP';
+const apiKey = 'bfb6a2f66ee16afd7a0b3cb0ab99b680';
+// 3. Armamos la dirección para llamar a la API (en español y en grados
+Celsius)
+const url =
+`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}
+&units=metric&lang=es`;
+// 4. Hacemos el pedido a la API
+fetch(url)
+.then(respuesta => respuesta.json()) // Convertimos la respuesta a un
+formato fácil de leer
+.then(datos => {
+// Extraemos la temperatura y la descripción
+const temperatura = datos.main.temp;
+const descripcion = datos.weather[0].description;
+// Mostramos el resultado en la pantalla
+document.getElementById('resultado').innerText = `En ${ciudad} hace
+${temperatura}°C. Se ve: ${descripcion}.`;
+})
+.catch(error => {
+// Si hay un error (ej. ciudad mal escrita), avisamos
+document.getElementById('resultado').innerText = 'Hubo un error o la
+ciudad no existe. ¡Intenta de nuevo!';
+});
+}
+</script>
+</body>
+</html>
+</div>
