@@ -16,6 +16,7 @@ background-color: white;
 padding: 20px;
 border-radius: 10px;
 display: inline-block;
+box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 input, button {
 padding: 10px;
@@ -27,42 +28,32 @@ margin: 5px;
 <body>
 <div class="contenedor">
 <h1> El Clima en Vivo</h1>
-<p>Escribe una ciudad para saber cómo está el clima ahora mismo gracias a
-la nube.</p>
+<p>Escribe una ciudad para saber cómo está el clima ahora mismo.</p>
 <input type="text" id="ciudad" placeholder="Ej: Merlo, San Luis">
 <button onclick="buscarClima()">Buscar</button>
 <h2 id="resultado"></h2>
+</div>
 <script>
 function buscarClima() {
-// 1. Obtenemos el nombre de la ciudad que escribió el usuario
 const ciudad = document.getElementById('ciudad').value;
-// 2. ¡PEGA TU API KEY AQUÍ ABAJO!
-// const apiKey = 'PEGA_AQUI_TU_CLAVE_DE_OPENWEATHERMAP';
+// PEGA TU API KEY AQUÍ ABAJO
 const apiKey = 'bfb6a2f66ee16afd7a0b3cb0ab99b680';
-// 3. Armamos la dirección para llamar a la API (en español y en grados
-Celsius)
 const url =
 `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}
 &units=metric&lang=es`;
-// 4. Hacemos el pedido a la API
 fetch(url)
-.then(respuesta => respuesta.json()) // Convertimos la respuesta a un
-formato fácil de leer
+.then(respuesta => respuesta.json())
 .then(datos => {
-// Extraemos la temperatura y la descripción
 const temperatura = datos.main.temp;
 const descripcion = datos.weather[0].description;
-// Mostramos el resultado en la pantalla
-document.getElementById('resultado').innerText = `En ${ciudad} hace
-${temperatura}°C. Se ve: ${descripcion}.`;
+document.getElementById('resultado').innerText =
+`En ${ciudad} hace ${temperatura}°C. El cielo está: ${descripcion}.`;
 })
 .catch(error => {
-// Si hay un error (ej. ciudad mal escrita), avisamos
-document.getElementById('resultado').innerText = 'Hubo un error o la
-ciudad no existe. ¡Intenta de nuevo!';
+document.getElementById('resultado').innerText =
+'Error: Ciudad no encontrada o API inactiva.';
 });
 }
 </script>
 </body>
 </html>
-</div>
